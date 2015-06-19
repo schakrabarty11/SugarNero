@@ -32,7 +32,7 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "php_SugarNero.h"
-#include "lib/SugarNeroHelper.c"
+#include "lib/SugarParser/SugarNeroHelper.c"
 
 
 

@@ -1,3 +1,6 @@
 [submodule "SugarNero"]
 	path = SugarNero
 	url = https://github.com/schakrabarty11/SugarNero.git
+[submodule "lib/SugarParser"]
+	path = lib/SugarParser
+	url = https://github.com/schakrabarty11/SugarParser
