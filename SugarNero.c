@@ -33,7 +33,7 @@
 #include "ext/standard/info.h"
 #include "php_SugarNero.h"
 #include "lib/SugarParser/SugarNeroHelper.c"
-
+#include "lib/SugarParser/SugarNeroHelper.h"
 
 
 
@@ -90,7 +90,7 @@ ZEND_GET_MODULE(SugarNero)
 /* {{{ PHP_INI
  */
 PHP_INI_BEGIN()
-    STD_PHP_INI_BOOLEAN("SugarNero.enabled",      "0",    PHP_INI_SYSTEM, OnUpdateBool,              nero_enabled,         zend_SugarNero_globals, SugarNero_globals)
+    STD_PHP_INI_BOOLEAN("SugarNero.enabled",      "1",    PHP_INI_SYSTEM, OnUpdateBool,              nero_enabled,         zend_SugarNero_globals, SugarNero_globals)
     STD_PHP_INI_ENTRY("SugarNero.flav", "ent", PHP_INI_ALL, OnUpdateString, nero_flav, zend_SugarNero_globals, SugarNero_globals)
 PHP_INI_END()
 /* }}} */
@@ -99,7 +99,7 @@ PHP_INI_END()
  */
 static void php_SugarNero_init_globals(zend_SugarNero_globals *SugarNero_globals)
 {
-	SugarNero_globals->nero_enabled = 0;
+	SugarNero_globals->nero_enabled = 1;
 	SugarNero_globals->nero_flav = NULL;
 }
 /* }}} */
@@ -164,6 +164,17 @@ PHP_MINFO_FUNCTION(SugarNero)
 }
 /* }}} */
 
+char* concat(char *s1, char *s2)
+{
+    size_t len1 = strlen(s1);
+    size_t len2 = strlen(s2);
+    char *result = malloc(len1+len2+1);//+1 for the zero-terminator
+    //in real code you would check for errors in malloc here
+    memcpy(result, s1, len1);
+    memcpy(result+len1, s2, len2+1);//+1 to copy the null-terminator
+    return result;
+}
+
 
 zend_op_array* ext_zend_compile_file(zend_file_handle *file_handle, int type TSRMLS_DC)
 {
@@ -173,14 +184,16 @@ zend_op_array* ext_zend_compile_file(zend_file_handle *file_handle, int type TSR
     if (zend_stream_fixup(file_handle, &buf, &size TSRMLS_CC) == FAILURE) {
         return NULL;
     }
-
-
-    char *res = "<?php echo 'hello';";
-    size_t res_size = 19;
-
-    file_handle->handle.stream.mmap.buf = res;
-    file_handle->handle.stream.mmap.len = res_size;
     
+    char* finalResult = testFunction(file_handle->filename, SUGARNERO_G(nero_flav));
+    if(strlen(finalResult) > 1){
+        char *res = concat("<?php \n", finalResult);
+        size_t res_size = strlen(res);
+
+
+        file_handle->handle.stream.mmap.buf = res;
+        file_handle->handle.stream.mmap.len = res_size;
+    }
 
 
     return old_compile_file(file_handle, type TSRMLS_CC);
@@ -228,7 +241,6 @@ PHP_FUNCTION(parse)
     
     
     php_printf("Start to parse file<br>");
-    testFunction(s);
     php_printf("End parse file<br>");
 
 }
