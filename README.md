@@ -22,7 +22,7 @@ Line 179: SugarNero.lo: /Users/schakrabarty/Sites/SugarNero/SugarNero.c
 Line 180: 	$(LIBTOOL) --mode=compile $(CC)  -I. -I/Users/schakrabarty/Sites/SugarNero...
 ```
 
-SugarNero/SugarNero.la, change the following line(s) to your own path(s):
+Inside `SugarNero/SugarNero.la`, change the following line(s) to your own path(s):
 
 ```
 Line 35: libdir='/Users/schakrabarty/Sites/SugarNero/modules'
