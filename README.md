@@ -43,7 +43,7 @@ $ git submodule update
 ```
 Final structure should look like `SugarNero/lib/SugarParser/`.
 
-####Enable SugarParser
+####Enable SugarNero
 Under `SugarNero/SugarNero.c`, change:
 ```
 Line 96: STD_PHP_INI_BOOLEAN("SugarNero.enabled", "0", ...
