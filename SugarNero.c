@@ -93,7 +93,7 @@ ZEND_GET_MODULE(SugarNero)
 /* {{{ PHP_INI
  */
 PHP_INI_BEGIN()
-    STD_PHP_INI_BOOLEAN("SugarNero.enabled",      "1",    PHP_INI_SYSTEM, OnUpdateBool,              nero_enabled,         zend_SugarNero_globals, SugarNero_globals)
+    STD_PHP_INI_BOOLEAN("SugarNero.enabled",      "0",    PHP_INI_SYSTEM, OnUpdateBool,              nero_enabled,         zend_SugarNero_globals, SugarNero_globals)
     STD_PHP_INI_ENTRY("SugarNero.flav", "ent", PHP_INI_ALL, OnUpdateString, nero_flav, zend_SugarNero_globals, SugarNero_globals)
 PHP_INI_END()
 /* }}} */
@@ -151,11 +151,8 @@ PHP_RINIT_FUNCTION(SugarNero)
 PHP_RSHUTDOWN_FUNCTION(SugarNero)
 {
     psfree(&pStack);
-   
-    //PointerStack_setFree(&pStack);
-    
     PointerStack_free(&pStack);
-    php_printf("SHUTDOWN, %i<br>", pStack.size);
+    //php_printf("SHUTDOWN, %i<br>", pStack.size);
 	return SUCCESS;
 }
 /* }}} */
