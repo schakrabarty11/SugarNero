@@ -34,6 +34,8 @@
 #include "php_SugarNero.h"
 #include "lib/SugarParser/SugarNeroHelper.c"
 #include "lib/SugarParser/SugarNeroHelper.h"
+#include "lib/SugarParser/PointerStack.h"
+
 
 
 
@@ -44,6 +46,7 @@ zend_op_array* ext_zend_compile_file(zend_file_handle *file_handle, int type TSR
 //static apc_serializer_t apc_serializers[APC_MAX_SERIALIZERS] = {{0,}};
 
 
+    PointerStack pStack;
 
 
 ZEND_DECLARE_MODULE_GLOBALS(SugarNero)
@@ -108,13 +111,15 @@ static void php_SugarNero_init_globals(zend_SugarNero_globals *SugarNero_globals
  */
 PHP_MINIT_FUNCTION(SugarNero)
 {
+    
 	REGISTER_INI_ENTRIES();
     //If we are enabled we'll re-write all source code that is sent to us.
 	if(SUGARNERO_G(nero_enabled)) {
         
-
 	    old_compile_file = zend_compile_file;
         zend_compile_file = ext_zend_compile_file;
+        
+        psfree(&pStack);
 	}
 
 	return SUCCESS;
@@ -135,6 +140,7 @@ PHP_MSHUTDOWN_FUNCTION(SugarNero)
  */
 PHP_RINIT_FUNCTION(SugarNero)
 {
+
 	return SUCCESS;
 }
 /* }}} */
@@ -144,6 +150,12 @@ PHP_RINIT_FUNCTION(SugarNero)
  */
 PHP_RSHUTDOWN_FUNCTION(SugarNero)
 {
+    psfree(&pStack);
+   
+    //PointerStack_setFree(&pStack);
+    
+    PointerStack_free(&pStack);
+    php_printf("SHUTDOWN, %i<br>", pStack.size);
 	return SUCCESS;
 }
 /* }}} */
@@ -168,33 +180,43 @@ char* concat(char *s1, char *s2)
 {
     size_t len1 = strlen(s1);
     size_t len2 = strlen(s2);
-    char *result = malloc(len1+len2+1);//+1 for the zero-terminator
-    //in real code you would check for errors in malloc here
+    char *result = psmalloc(&pStack, len1+len2+1);//+1 for the zero-terminator
+    //in real code you would check for errors in emalloc here
     memcpy(result, s1, len1);
     memcpy(result+len1, s2, len2+1);//+1 to copy the null-terminator
-    return result;
+
+    char* to_return = result;
+    return to_return;
 }
 
 
 zend_op_array* ext_zend_compile_file(zend_file_handle *file_handle, int type TSRMLS_DC)
 {
 
+    if(pStack.size==0){
+        PointerStack_init(&pStack);
+    }
+    
+    
     char *buf;
     size_t size;
     if (zend_stream_fixup(file_handle, &buf, &size TSRMLS_CC) == FAILURE) {
         return NULL;
     }
     
-    char* finalResult = testFunction(file_handle->filename, SUGARNERO_G(nero_flav));
+    char* finalResult = testFunction(file_handle->filename, SUGARNERO_G(nero_flav), &pStack);
+    
+    
+   
     if(strlen(finalResult) > 1){
         char *res = concat("<?php \n", finalResult);
+        
         size_t res_size = strlen(res);
-
 
         file_handle->handle.stream.mmap.buf = res;
         file_handle->handle.stream.mmap.len = res_size;
     }
-
+    
 
     return old_compile_file(file_handle, type TSRMLS_CC);
 }

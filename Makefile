@@ -31,7 +31,7 @@ CPPFLAGS = -DHAVE_CONFIG_H
 CXX =
 CXXFLAGS =
 CXXFLAGS_CLEAN = $(CXXFLAGS)
-EXTENSION_DIR = /usr/local/Cellar/php55/5.5.26/lib/php/extensions/no-debug-non-zts-20121212
+EXTENSION_DIR =/usr/local/Cellar/php55/5.5.26/lib/php/extensions/no-debug-non-zts-20121212
 PHP_EXECUTABLE = /usr/local/Cellar/php55/5.5.26/bin/php
 EXTRA_LDFLAGS =
 EXTRA_LIBS =
@@ -49,7 +49,7 @@ INSTALL_DATA = $(INSTALL) -m 644
 DEFS = -DPHP_ATOM_INC -I$(top_builddir)/include -I$(top_builddir)/main -I$(top_srcdir)
 COMMON_FLAGS = $(DEFS) $(INCLUDES) $(EXTRA_INCLUDES) $(CPPFLAGS) $(PHP_FRAMEWORKPATH)
 
-all: $(all_targets) 
+all: $(all_targets)
 	@echo
 	@echo "Build complete."
 	@echo "Don't forget to run 'make test'."
@@ -156,7 +156,7 @@ test: all
 clean:
 	find . -name \*.gcno -o -name \*.gcda | xargs rm -f
 	find . -name \*.lo -o -name \*.o | xargs rm -f
-	find . -name \*.la -o -name \*.a | xargs rm -f 
+	find . -name \*.la -o -name \*.a | xargs rm -f
 	find . -name \*.so | xargs rm -f
 	find . -name .libs -a -type d|xargs rm -rf
 	rm -f libphp$(PHP_MAJOR_VERSION).la $(SAPI_CLI_PATH) $(SAPI_CGI_PATH) $(SAPI_MILTER_PATH) $(SAPI_LITESPEED_PATH) $(SAPI_FPM_PATH) $(OVERALL_TARGET) modules/* libs/*
@@ -177,10 +177,9 @@ distclean: clean
 .PHONY: all clean install distclean test
 .NOEXPORT:
 SugarNero.lo: /Users/schakrabarty/Sites/SugarNero/SugarNero.c
-	$(LIBTOOL) --mode=compile $(CC)  -I. -I/Users/schakrabarty/Sites/SugarNero $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /Users/schakrabarty/Sites/SugarNero/SugarNero.c -o SugarNero.lo 
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/Users/schakrabarty/Sites/SugarNero $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /Users/schakrabarty/Sites/SugarNero/SugarNero.c -o SugarNero.lo
 $(phplibdir)/SugarNero.la: ./SugarNero.la
 	$(LIBTOOL) --mode=install cp ./SugarNero.la $(phplibdir)
 
 ./SugarNero.la: $(shared_objects_SugarNero) $(SUGARNERO_SHARED_DEPENDENCIES)
 	$(LIBTOOL) --mode=link $(CC) $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS) $(LDFLAGS) -o $@ -export-dynamic -avoid-version -prefer-pic -module -rpath $(phplibdir) $(EXTRA_LDFLAGS) $(shared_objects_SugarNero) $(SUGARNERO_SHARED_LIBADD)
-

@@ -1,0 +1,2 @@
+001+ <br>|||||<br><?php <br>echo "SugarNero extension is available";<br>/*<br>	you can add regression tests for your extension here<br><br>  the output of your test code has to be equal to the<br>  text in the --EXPECT-- section below for the tests<br>  to pass, differences between the output and the<br>  expected text are interpreted as failure<br><br>	see php5/README.TESTING for further information on<br>  writing regression tests<br>*/<br>?><br><br>SugarNero extension is available
+001- SugarNero extension is available
