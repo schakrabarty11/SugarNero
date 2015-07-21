@@ -35,7 +35,7 @@ memory_limit = 512M
 
 I remember there was a separate ini file just for sugar, but don't remember where. Change that one as well.
 
-###Running Instructions:
+###Installation:
 ####Add Submodule
 Download SugarParser submodule under `SugarNero/`. 
 ```
@@ -54,7 +54,7 @@ To
 Line 96: STD_PHP_INI_BOOLEAN("SugarNero.enabled", "1", ...
 ```
 
-####Install
+####Install SugarNero
 Under `SugarNero/ `, run
 ```
 sudo make clean
