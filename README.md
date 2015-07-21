@@ -2,7 +2,7 @@
 
 ##Install instructions
 
-###Makefile Modification
+###Modification
 
 Inside of `SugarNero/Makefile`, change following lines to your own path(s):
 
