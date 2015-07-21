@@ -28,7 +28,7 @@ Inside `SugarNero/SugarNero.la`, change the following line(s) to your own path(s
 Line 35: libdir='/Users/schakrabarty/Sites/SugarNero/modules'
 ```
 
-Change the following in php.ini:
+Change the following in `php.ini`:
 
 ```
 max_execution_time = 30000
