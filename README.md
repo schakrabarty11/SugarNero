@@ -36,7 +36,12 @@ memory_limit = 512M
 I remember there was a separate ini file just for sugar, but don't remember where. Change that one as well.
 
 ###Running Instructions:
-Download SugarParser submodule under `SugarNero/lib`. Final structure should look like `SugarNero/lib/SugarParser/`.
+Download SugarParser submodule under `SugarNero/`. 
+```
+$ git submodule init
+$ git submodule update
+```
+Final structure should look like `SugarNero/lib/SugarParser/`.
 
 Under `SugarNero/SugarNero.c`, change:
 ```
