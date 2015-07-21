@@ -46,7 +46,7 @@ Under `SugarNero/ `, run
 ```
 sudo make clean
 sudo make && make install
-  udo apachectl restart
+sudo apachectl restart
 ```
   
 
