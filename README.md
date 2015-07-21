@@ -4,7 +4,7 @@
 
 ###Makefile Modification
 
-Inside of SugarNero/Makefile, change following lines to your own path(s):
+Inside of `SugarNero/Makefile`, change following lines to your own path(s):
 
 ```
 Line 1: srcdir = /Users/schakrabarty/Sites/SugarNero
