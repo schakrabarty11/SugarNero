@@ -5,7 +5,6 @@
 ###Modification
 
 Inside of `SugarNero/Makefile`, change following lines to your own path(s):
-
 ```
 Line 1: srcdir = /Users/schakrabarty/Sites/SugarNero
 Line 2: builddir = /Users/schakrabarty/Sites/SugarNero
@@ -23,13 +22,11 @@ Line 180: 	$(LIBTOOL) --mode=compile $(CC)  -I. -I/Users/schakrabarty/Sites/Suga
 ```
 
 Inside `SugarNero/SugarNero.la`, change the following line(s) to your own path(s):
-
 ```
 Line 35: libdir='/Users/schakrabarty/Sites/SugarNero/modules'
 ```
 
 Change the following in `php.ini`:
-
 ```
 max_execution_time = 30000
 max_input_time = 60000
@@ -41,8 +38,16 @@ I remember there was a separate ini file just for sugar, but don't remember wher
 ###Running Instructions:
 Download SugarParser submodule under `SugarNero/lib`. Final structure should look like `SugarNero/lib/SugarParser/`.
 
-Under `SugarNero/ `, run
+Under `SugarNero/SugarNero.c`, change:
+```
+Line 96: STD_PHP_INI_BOOLEAN("SugarNero.enabled", "0", ...
+```
+To
+```
+Line 96: STD_PHP_INI_BOOLEAN("SugarNero.enabled", "1", ...
+```
 
+Under `SugarNero/ `, run
 ```
 sudo make clean
 sudo make && make install
