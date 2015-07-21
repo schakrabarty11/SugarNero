@@ -1,6 +1,6 @@
 # SugarNero
 
-##Install instructions
+##Installation Instructions
 
 ###Modification
 
